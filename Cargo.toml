@@ -1,0 +1,8 @@
+[package]
+name = "playground"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+kiss3d = "0.37.1"
+nalgebra = "0.34.1"
