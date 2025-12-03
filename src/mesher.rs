@@ -28,13 +28,93 @@
 mod mesher_dumb;
 pub mod mesher_definitions;
 
-/// # Enum
+use crate::mesher::mesher_definitions::FACES;
+
+/// # Function
 /// ## Description
-/// This is an enum.
+/// This is a function.
 #[allow(dead_code)]
-enum Mode 
+pub fn create_vertices
+(
+    verts: &mut Vec<[f32; 3]>, 
+    x: &usize, 
+    y: &usize, 
+    z: &usize, 
+    size: &usize, 
+    face: FACES
+)
 {
-    DUMB,
-    CULLED,
-    GREEDY,
+    let x = *x as f32;
+    let y = *y as f32;
+    let z = *z as f32;
+    let size = *size as f32;
+
+    let mut _quad: [[f32; 3]; 4] = [[0.0; 3]; 4];
+
+    match face 
+    {
+        FACES::NORTH =>
+        {
+            _quad = 
+            [
+                [1.0 * size + x, 0.0 * size + y, 1.0 * size + z],
+                [1.0 * size + x, 0.0 * size + y, 0.0 * size + z],
+                [1.0 * size + x, 1.0 * size + y, 0.0 * size + z],
+                [1.0 * size + x, 1.0 * size + y, 1.0 * size + z],
+            ];
+        },
+        FACES::SOUTH =>
+        {
+            _quad = 
+            [
+                [0.0 * size + x, 0.0 * size + y, 0.0 * size + z],
+                [0.0 * size + x, 0.0 * size + y, 1.0 * size + z],
+                [0.0 * size + x, 1.0 * size + y, 1.0 * size + z],
+                [0.0 * size + x, 1.0 * size + y, 0.0 * size + z],
+            ];
+        },
+        FACES::EAST =>
+        { 
+            _quad = 
+            [
+                [0.0 * size + x, 0.0 * size + y, 1.0 * size + z],
+                [1.0 * size + x, 0.0 * size + y, 1.0 * size + z],
+                [1.0 * size + x, 1.0 * size + y, 1.0 * size + z],
+                [0.0 * size + x, 1.0 * size + y, 1.0 * size + z],
+            ];
+        },
+        FACES::WEST => 
+        { 
+            _quad = 
+            [
+                [1.0 * size + x, 0.0 * size + y, 0.0 * size + z],
+                [0.0 * size + x, 0.0 * size + y, 0.0 * size + z],
+                [0.0 * size + x, 1.0 * size + y, 0.0 * size + z],
+                [1.0 * size + x, 1.0 * size + y, 0.0 * size + z],
+            ];
+        },
+        FACES::TOP => 
+        { 
+            _quad = 
+            [
+                [0.0 * size + x, 1.0 * size + y, 0.0 * size + z],
+                [0.0 * size + x, 1.0 * size + y, 1.0 * size + z],
+                [1.0 * size + x, 1.0 * size + y, 1.0 * size + z],
+                [1.0 * size + x, 1.0 * size + y, 0.0 * size + z],
+            ];
+        },
+        FACES::BOTTOM =>
+        {
+            _quad = 
+            [
+                [0.0 * size + x, 0.0 * size + y, 1.0 * size + z],
+                [0.0 * size + x, 0.0 * size + y, 0.0 * size + z],
+                [1.0 * size + x, 0.0 * size + y, 0.0 * size + z],
+                [1.0 * size + x, 0.0 * size + y, 1.0 * size + z],
+            ];
+        },
+    }
+
+    verts.extend([_quad[0], _quad[1], _quad[2], _quad[0], _quad[2], _quad[3]]);
+
 }

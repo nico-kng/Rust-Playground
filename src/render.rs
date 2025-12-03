@@ -15,8 +15,22 @@ use std::rc::Rc;
 /// ## Description
 /// This is a function.
 #[allow(dead_code)]
-pub fn build_mesh(window: &mut Window, triangles: Vec<Point3<f32>>)
+fn create_points(triangles: &mut Vec<Point3<f32>>, vertices: &Vec<[f32; 3]>)
 {
+    for vertex in vertices 
+    {
+        triangles.push(Point3::new(vertex[0], vertex[1], vertex[2]));
+    }
+}
+
+/// # Function
+/// ## Description
+/// This is a function.
+#[allow(dead_code)]
+pub fn build_mesh(window: &mut Window, vertices: Vec<[f32; 3]>)
+{
+    let mut triangles: Vec<Point3<f32>> = Vec::new();
+    create_points(&mut triangles, &vertices);
     let render_mesh = RenderMesh::new(triangles, None, None, None);
     let gpu_mesh = GpuMesh::from_render_mesh(render_mesh, false);
     let mesh = Rc::new(RefCell::new(gpu_mesh));

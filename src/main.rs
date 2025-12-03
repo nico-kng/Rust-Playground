@@ -5,41 +5,37 @@ mod mesher;
 use chunk::Chunk;
 use chunk::chunk_definitions::Function;
 
-use mesher::mesher_definitions::north_face;
+use mesher::*;
+use mesher::mesher_definitions::FACES;
 
 use kiss3d::window::Window;
-use nalgebra::Point3;
 
+/// MAIN FUNCTION
 #[kiss3d::main]
 async fn main() 
 {
-    chunk();
-
     let mut window = Window::new("Voxel-Renderer");
     window.set_background_color(0.0, 0.784, 1.0);
 
-    let a = Point3::new(-1.0, -1.0, 0.0);
-    let b = Point3::new(1.0, -1.0, 0.0);
-    let c = Point3::new(0.0, 1.0, 0.0);
-
-    let triangles = vec![a, b, c];
-
-    render::build_mesh(&mut window, triangles);
-
-    while window.render().await{}
-}
-
-#[allow(dead_code)]
-fn chunk() 
-{
-    north_face();
-
     let mut chunk: Chunk = Chunk::new();
-
     chunk.generate(Function::Cube);
 
-    chunk.array.set(0, 0, 0, 0);
+    let mut verts: Vec<[f32; 3]> = Vec::new();
 
-    println!("Hello, chunk! You value is {}", chunk.array.get(0, 0, 0));
-    println!("Hello, chunk! You value is {}", chunk.array.get(1, 1, 1));
+    let x: usize = 0;
+    let y: usize = 0;
+    let z: usize = 0;
+    let size: usize = 1;
+
+    create_vertices(&mut verts, &x, &y, &z, &size, FACES::NORTH);
+    create_vertices(&mut verts, &x, &y, &z, &size, FACES::SOUTH);
+    create_vertices(&mut verts, &x, &y, &z, &size, FACES::EAST);
+    create_vertices(&mut verts, &x, &y, &z, &size, FACES::WEST);
+    create_vertices(&mut verts, &x, &y, &z, &size, FACES::TOP);
+    create_vertices(&mut verts, &x, &y, &z, &size, FACES::BOTTOM);
+
+    render::build_mesh(&mut window, verts);
+
+    while window.render().await{}
+
 }

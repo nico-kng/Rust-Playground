@@ -2,7 +2,7 @@
 //! ## Description:
 //! This is a submodule.
 
-use crate::chunk::chunk_array::ChunkArray;
+use crate::chunk::ChunkArray;
 
 /// # Function
 /// ## Description
